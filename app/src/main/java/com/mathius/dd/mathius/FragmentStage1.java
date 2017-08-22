@@ -43,6 +43,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
     private int defaultTimer = 15;
     private final int[] timerTime = {defaultTimer};
     Timer timer;
+    int level = 1;
 
 
     //Constructor
@@ -78,7 +79,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
             //loop for timer
             //timerTime[0] will decrease every 1 second
-            for (; timerTime[0] >=0; timerTime[0]--) {
+            for (; timerTime[0] >= 0; timerTime[0]--) {
 
                 //change UI textview on separate thread
                 getActivity().runOnUiThread(new Runnable() {
@@ -100,29 +101,12 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
             //if the time is over will open another windows
             FragmentStart fragmentStart = new FragmentStart();
             FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-            fragmentTransaction.replace(R.id.frameLayoutMain,fragmentStart,"FRAGMENT1");
+            fragmentTransaction.replace(R.id.frameLayoutMain, fragmentStart, "FRAGMENT1");
             fragmentTransaction.commit();
 
             return null;
         }
     }
-
-//    private void timer() {
-//
-//
-//        getActivity().runOnUiThread(new Runnable() {
-//            @Override
-//            public void run() {
-//
-//                //stuff that updates ui
-//
-//
-//
-//
-//
-//            }
-//        });
-//    }
 
     private void equations() {
         equation1 = (int) Math.floor((Math.random() * 100 + 1));
@@ -211,36 +195,8 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btnAnswer:
 
-                //Get text from TextView mTvAnswer and parse to String
-                String temp = String.valueOf(mTvAnswer.getText());
-
-                //Parse to int
-                int tempNumber = Integer.valueOf(temp);
-
-                //Check the answer
-                if (tempNumber == equation1 + equation2) {
-
-                    correct++;
-                    mTvCorrect.setText(String.valueOf(correct));
-
-                    //if correct, say "correct"
-                    Toast.makeText(v.getContext(), "CORRECT!!!", Toast.LENGTH_SHORT).show();
-
-                    timerTime[0]=defaultTimer;
-
-
-                } else {
-                    incorrect++;
-                    mTvIncorrect.setText(String.valueOf(incorrect));
-                    //if not correct, say "incorrect"
-                    Toast.makeText(v.getContext(), "INCORRECT", Toast.LENGTH_SHORT).show();
-                }
-
-                //make numbers to 0
-                answer = "";
-                mTvAnswer.setText("0");
-                equations();
-
+                //events when the answer is correct
+                AnswerBtn();
                 break;
             case R.id.btnC:
 
@@ -249,5 +205,42 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
                 answer = "";
                 break;
         }
+    }
+
+    private void AnswerBtn() {
+        //Get text from TextView mTvAnswer and parse to String
+        String temp = String.valueOf(mTvAnswer.getText());
+
+        //Parse to int
+        int tempNumber = Integer.valueOf(temp);
+
+        //Check the answer
+        if (tempNumber == equation1 + equation2) {
+
+            //increase the score if answer is correct
+            correct++;
+
+            //setting the score value to TextView
+            mTvCorrect.setText(String.valueOf(correct));
+
+            //if correct, say "correct"
+            Toast.makeText(getActivity(), "CORRECT!!!", Toast.LENGTH_SHORT).show();
+
+            //Make timer to default state
+            timerTime[0] = defaultTimer;
+
+
+        } else {
+            incorrect++;
+            mTvIncorrect.setText(String.valueOf(incorrect));
+            //if not correct, say "incorrect"
+            Toast.makeText(getActivity(), "INCORRECT", Toast.LENGTH_SHORT).show();
+        }
+
+
+        //make numbers to 0
+        answer = "";
+        mTvAnswer.setText("0");
+        equations();
     }
 }
