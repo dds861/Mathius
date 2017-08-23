@@ -9,6 +9,7 @@
     </style>
 
     <style name="buttons">
+        <item name="android:layout_margin">1dp</item>
         <item name="android:layout_weight">1</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">match_parent</item>
