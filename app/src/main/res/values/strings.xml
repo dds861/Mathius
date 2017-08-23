@@ -2,5 +2,6 @@
     <string name="app_name">Mathius Game</string>
 
     <string name="answer">Answer</string>
+    <string name="delete"><![CDATA[<]]></string>
 
 </resources>

@@ -1,7 +1,6 @@
 package com.mathius.dd.mathius;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,14 +11,13 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import static android.R.id.list;
-
 
 public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
 
     private TextView mTvEquation;
     private TextView mTvAnswer;
+    private TextView mlevelCurrent;
     private Button mBtn7;
     private Button mBtn8;
     private Button mBtn9;
@@ -32,6 +30,9 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
     private Button mBtn0;
     private Button mBtnAnswer;
     private Button mBtnC;
+    private Button mBtnDelete;
+    private Button mBtnMinus;
+    private Button mBack;
     String answer = "";
     private int equation1;
     private int equation2;
@@ -41,9 +42,12 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
     private TextView mTvCorrect;
     private TextView mTvTimer;
     private int defaultTimer = 15;
-    private final int[] timerTime = {defaultTimer};
+    private int[] timerTime = {defaultTimer};
     Timer timer;
-    int level = 1;
+    String level;
+    int equationAmounts = 0;
+    FragmentStart fragmentStart;
+    FragmentTransaction fragmentTransaction;
 
 
     //Constructor
@@ -63,6 +67,8 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
         //start making equations
         equations();
+
+        timerTime[0] = defaultTimer;
 
         //Start Timer in Thread
         timer = new Timer();
@@ -85,7 +91,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mTvTimer.setText(String.valueOf(timerTime[0]));
+                        mTvTimer.setText("Time: " + String.valueOf(timerTime[0]));
                     }
                 });
 
@@ -99,8 +105,8 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
 
             //if the time is over will open another windows
-            FragmentStart fragmentStart = new FragmentStart();
-            FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+            fragmentStart = new FragmentStart();
+            fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frameLayoutMain, fragmentStart, "FRAGMENT1");
             fragmentTransaction.commit();
 
@@ -109,16 +115,62 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
     }
 
     private void equations() {
-        equation1 = (int) Math.floor((Math.random() * 100 + 1));
-        equation2 = (int) Math.floor((Math.random() * 100 + 1));
+
+
+        if (equationAmounts < 5) {
+            equation1 = (int) Math.floor((Math.random() * 10 + 1));
+            equation2 = (int) Math.floor((Math.random() * 10 + 1));
+            level = "1";
+        } else if (equationAmounts < 10) {
+            equation1 = (int) Math.floor((Math.random() * 10 + 1));
+            equation2 = (int) Math.floor((Math.random() * 100 + 1));
+            level = "2";
+        } else if (equationAmounts < 15) {
+            equation1 = (int) Math.floor((Math.random() * 100 + 1));
+            equation2 = (int) Math.floor((Math.random() * 100 + 1));
+            level = "3";
+        } else if (equationAmounts < 20) {
+            equation1 = (int) Math.floor((Math.random() * 100 + 1));
+            equation2 = (int) Math.floor((Math.random() * 1000 + 1));
+            level = "4";
+        } else if (equationAmounts < 25) {
+            equation1 = (int) Math.floor((Math.random() * 1000 + 1));
+            equation2 = (int) Math.floor((Math.random() * 1000 + 1));
+            level = "5";
+        } else if (equationAmounts < 30) {
+            equation1 = (int) Math.floor((Math.random() * 1000 + 1));
+            equation2 = (int) Math.floor((Math.random() * 10000 + 1));
+            level = "6";
+        } else if (equationAmounts < 35) {
+            equation1 = (int) Math.floor((Math.random() * 10000 + 1));
+            equation2 = (int) Math.floor((Math.random() * 10000 + 1));
+            level = "7";
+        } else if (equationAmounts < 40) {
+            equation1 = (int) Math.floor((Math.random() * 10000 + 1));
+            equation2 = (int) Math.floor((Math.random() * 100000 + 1));
+            level = "8";
+        } else if (equationAmounts < 45) {
+            equation1 = (int) Math.floor((Math.random() * 100000 + 1));
+            equation2 = (int) Math.floor((Math.random() * 100000 + 1));
+            level = "9";
+        } else if (equationAmounts < 50) {
+            equation1 = (int) Math.floor((Math.random() * 100000 + 1));
+            equation2 = (int) Math.floor((Math.random() * 1000000 + 1));
+            level = "10";
+        }
+
 
         mTvEquation.setText(equation1 + " + " + equation2 + " = ?");
+        mlevelCurrent.setText("Level " + level);
+
+
     }
 
     //we find all components
     private void initView(View view) {
         mTvEquation = (TextView) view.findViewById(R.id.tv_equation);
         mTvAnswer = (TextView) view.findViewById(R.id.tv_answer);
+        mlevelCurrent = (TextView) view.findViewById(R.id.levelCurrent);
         mBtn7 = (Button) view.findViewById(R.id.btn7);
         mBtn7.setOnClickListener(this);
         mBtn8 = (Button) view.findViewById(R.id.btn8);
@@ -143,6 +195,12 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
         mBtnAnswer.setOnClickListener(this);
         mBtnC = (Button) view.findViewById(R.id.btnC);
         mBtnC.setOnClickListener(this);
+        mBtnDelete = (Button) view.findViewById(R.id.btnDelete);
+        mBtnDelete.setOnClickListener(this);
+        mBtnMinus = (Button) view.findViewById(R.id.btnMinus);
+        mBtnMinus.setOnClickListener(this);
+        mBack = (Button) view.findViewById(R.id.btnBack);
+        mBack.setOnClickListener(this);
         mTvIncorrect = (TextView) view.findViewById(R.id.tv_incorrect);
         mTvCorrect = (TextView) view.findViewById(R.id.tv_correct);
         mTvTimer = (TextView) view.findViewById(R.id.tv_timer);
@@ -197,12 +255,40 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
                 //events when the answer is correct
                 AnswerBtn();
+                equations();
+
                 break;
             case R.id.btnC:
 
                 //make numbers to 0
                 mTvAnswer.setText("0");
                 answer = "";
+                break;
+            case R.id.btnDelete:
+                if (answer != null && answer.length() > 0) {
+                    answer = answer.substring(0, answer.length() - 1);
+
+                } else {
+                    answer = "0";
+                }
+
+                //make numbers to 0
+                mTvAnswer.setText(answer);
+
+
+                break;
+            case R.id.btnMinus:
+
+                answer += "-";
+                mTvAnswer.setText(answer);
+                break;
+            case R.id.btnBack:
+                fragmentStart = new FragmentStart();
+                fragmentTransaction = getFragmentManager().beginTransaction();
+                fragmentTransaction.replace(R.id.frameLayoutMain, fragmentStart, "FRAGMENT1");
+                fragmentTransaction.commit();
+
+                timer.cancel(true);
                 break;
         }
     }
@@ -227,7 +313,9 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
             Toast.makeText(getActivity(), "CORRECT!!!", Toast.LENGTH_SHORT).show();
 
             //Make timer to default state
-            timerTime[0] = defaultTimer;
+            timerTime[0] += defaultTimer;
+
+            equationAmounts++;
 
 
         } else {
@@ -241,6 +329,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
         //make numbers to 0
         answer = "";
         mTvAnswer.setText("0");
-        equations();
+
+
     }
 }
