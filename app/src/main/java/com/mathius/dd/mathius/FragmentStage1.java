@@ -141,9 +141,14 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
             fragmentTransaction = getFragmentManager().beginTransaction();
             fragmentTransaction.replace(R.id.frameLayoutMain, fragmentStart, "FRAGMENT1");
             fragmentTransaction.commit();
-
             return null;
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        timer.cancel(true);
     }
 
     private void equations(int localEquationAmounts) {
