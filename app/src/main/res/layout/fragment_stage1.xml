@@ -17,28 +17,45 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <Button
+            <ImageView
+
                 android:id="@+id/btnBack"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:text="back" />
+                android:src="@drawable/ic_back" />
 
             <TextView
                 android:id="@+id/levelCurrent"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center_horizontal|center_vertical"
+                android:textColor="@color/textColor"
                 android:textSize="20sp" />
 
-            <TextView
-                android:id="@+id/tv_timer"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="center_horizontal|center_vertical"
-                android:textSize="20sp" />
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@mipmap/ic_timer" />
+
+                <TextView
+                    android:id="@+id/tv_timer"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_horizontal|center_vertical"
+
+                    android:textColor="@color/textColor"
+                    android:textSize="20sp" />
+            </LinearLayout>
+
         </LinearLayout>
 
 
@@ -47,8 +64,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-
             android:gravity="center_horizontal|center_vertical"
+
+            android:textColor="@color/textColor"
             android:textSize="50sp" />
 
         <LinearLayout
@@ -101,6 +119,7 @@
                 android:gravity="center_horizontal|center_vertical"
                 android:lines="1"
                 android:text="0"
+                android:textColor="@color/textColor"
                 android:textSize="40sp" />
 
 
@@ -199,13 +218,6 @@
 
 
                 <Button
-                    android:id="@+id/btnMinus"
-                    style="@style/buttons"
-                    android:background="@drawable/btn_shape"
-
-                    android:text="-" />
-
-                <Button
                     android:id="@+id/btn0"
                     style="@style/buttons"
                     android:background="@drawable/btn_shape"
@@ -215,7 +227,7 @@
                 <Button
                     android:id="@+id/btnC"
                     style="@style/buttons"
-
+                    android:layout_weight="2"
                     android:background="@drawable/btn_shape"
                     android:text="C" />
 
@@ -231,8 +243,8 @@
                 <Button
                     android:id="@+id/btnAnswer"
                     style="@style/buttons"
-
                     android:background="@drawable/btn_shape"
+                    android:drawableRight="@mipmap/ic_enterr"
                     android:text="@string/answer" />
 
                 <Button

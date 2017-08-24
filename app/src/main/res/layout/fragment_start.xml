@@ -1,22 +1,31 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.mathius.dd.mathius.FragmentStart">
 
+
     <LinearLayout
+        android:id="@+id/layoutStart"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical">
+
 
         <Button
             android:id="@+id/btnStart"
+            style="@style/buttons"
+            android:textColor="@color/colorPrimaryDark"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:fontFamily="serif-monospace"
-            android:text="Start"
-            android:textSize="50sp" />
+            android:layout_height="match_parent"
+            android:layout_margin="0dp"
+            android:padding="0dp"
+            android:background="@color/colorAccent"
+            android:drawableLeft="@mipmap/ic_gun"
 
+            android:text="Start"
+            android:textSize="90sp" />
 
 
     </LinearLayout>

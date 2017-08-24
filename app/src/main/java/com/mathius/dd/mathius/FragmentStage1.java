@@ -1,5 +1,6 @@
 package com.mathius.dd.mathius;
 
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.os.AsyncTask;
@@ -8,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,7 +34,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
     private Button mBtnC;
     private Button mBtnDelete;
     private Button mBtnMinus;
-    private Button mBack;
+    private ImageView mBack;
     String answer = "";
     private int equation1;
     private int equation2;
@@ -49,6 +51,36 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
     FragmentStart fragmentStart;
     FragmentTransaction fragmentTransaction;
 
+    //----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
+    //interface
+    //----------------------------------------------------------------------------
+//    TextClicked mCallback;
+//
+//    public interface TextClicked{
+//        public void sendText(String text);
+//    }
+//
+//    @Override
+//    public void onAttach(Activity activity) {
+//        super.onAttach(activity);
+//
+//        // This makes sure that the container activity has implemented
+//        // the callback interface. If not, it throws an exception
+//        try {
+//            mCallback = (TextClicked) activity;
+//        } catch (ClassCastException e) {
+//            throw new ClassCastException(activity.toString()
+//                    + " must implement TextClicked");
+//        }
+//    }
+//
+//    public void someMethod(){
+//        mCallback.sendText("YOUR TEXT");
+//    }
+
+    //----------------------------------------------------------------------------
+    //----------------------------------------------------------------------------
 
     //Constructor
     public FragmentStage1() {
@@ -66,7 +98,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
 
         //start making equations
-        equations();
+        equations(equationAmounts);
 
         timerTime[0] = defaultTimer;
 
@@ -91,7 +123,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
                 getActivity().runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        mTvTimer.setText("Time: " + String.valueOf(timerTime[0]));
+                        mTvTimer.setText(String.valueOf(timerTime[0]));
                     }
                 });
 
@@ -114,46 +146,46 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
         }
     }
 
-    private void equations() {
+    private void equations(int localEquationAmounts) {
 
 
-        if (equationAmounts < 5) {
+        if (localEquationAmounts < 5) {
             equation1 = (int) Math.floor((Math.random() * 10 + 1));
             equation2 = (int) Math.floor((Math.random() * 10 + 1));
             level = "1";
-        } else if (equationAmounts < 10) {
+        } else if (localEquationAmounts < 10) {
             equation1 = (int) Math.floor((Math.random() * 10 + 1));
             equation2 = (int) Math.floor((Math.random() * 100 + 1));
             level = "2";
-        } else if (equationAmounts < 15) {
+        } else if (localEquationAmounts < 15) {
             equation1 = (int) Math.floor((Math.random() * 100 + 1));
             equation2 = (int) Math.floor((Math.random() * 100 + 1));
             level = "3";
-        } else if (equationAmounts < 20) {
+        } else if (localEquationAmounts < 20) {
             equation1 = (int) Math.floor((Math.random() * 100 + 1));
             equation2 = (int) Math.floor((Math.random() * 1000 + 1));
             level = "4";
-        } else if (equationAmounts < 25) {
+        } else if (localEquationAmounts < 25) {
             equation1 = (int) Math.floor((Math.random() * 1000 + 1));
             equation2 = (int) Math.floor((Math.random() * 1000 + 1));
             level = "5";
-        } else if (equationAmounts < 30) {
+        } else if (localEquationAmounts < 30) {
             equation1 = (int) Math.floor((Math.random() * 1000 + 1));
             equation2 = (int) Math.floor((Math.random() * 10000 + 1));
             level = "6";
-        } else if (equationAmounts < 35) {
+        } else if (localEquationAmounts < 35) {
             equation1 = (int) Math.floor((Math.random() * 10000 + 1));
             equation2 = (int) Math.floor((Math.random() * 10000 + 1));
             level = "7";
-        } else if (equationAmounts < 40) {
+        } else if (localEquationAmounts < 40) {
             equation1 = (int) Math.floor((Math.random() * 10000 + 1));
             equation2 = (int) Math.floor((Math.random() * 100000 + 1));
             level = "8";
-        } else if (equationAmounts < 45) {
+        } else if (localEquationAmounts < 45) {
             equation1 = (int) Math.floor((Math.random() * 100000 + 1));
             equation2 = (int) Math.floor((Math.random() * 100000 + 1));
             level = "9";
-        } else if (equationAmounts < 50) {
+        } else if (localEquationAmounts < 50) {
             equation1 = (int) Math.floor((Math.random() * 100000 + 1));
             equation2 = (int) Math.floor((Math.random() * 1000000 + 1));
             level = "10";
@@ -197,9 +229,9 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
         mBtnC.setOnClickListener(this);
         mBtnDelete = (Button) view.findViewById(R.id.btnDelete);
         mBtnDelete.setOnClickListener(this);
-        mBtnMinus = (Button) view.findViewById(R.id.btnMinus);
-        mBtnMinus.setOnClickListener(this);
-        mBack = (Button) view.findViewById(R.id.btnBack);
+//        mBtnMinus = (Button) view.findViewById(R.id.btnMinus);
+//        mBtnMinus.setOnClickListener(this);
+        mBack = (ImageView) view.findViewById(R.id.btnBack);
         mBack.setOnClickListener(this);
         mTvIncorrect = (TextView) view.findViewById(R.id.tv_incorrect);
         mTvCorrect = (TextView) view.findViewById(R.id.tv_correct);
@@ -255,7 +287,7 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
                 //events when the answer is correct
                 AnswerBtn();
-                equations();
+                equations(equationAmounts);
 
                 break;
             case R.id.btnC:
@@ -277,11 +309,11 @@ public class FragmentStage1 extends Fragment implements View.OnClickListener {
 
 
                 break;
-            case R.id.btnMinus:
-
-                answer += "-";
-                mTvAnswer.setText(answer);
-                break;
+//            case R.id.btnMinus:
+//
+//                answer += "-";
+//                mTvAnswer.setText(answer);
+//                break;
             case R.id.btnBack:
                 fragmentStart = new FragmentStart();
                 fragmentTransaction = getFragmentManager().beginTransaction();
